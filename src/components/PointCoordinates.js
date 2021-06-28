@@ -3,7 +3,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
-import {useState} from 'react';
+import { useState } from 'react';
+import { connect } from "react-redux";
 import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PointCoordinates({ point, size }) {
+function PointCoordinates({ point, size, coordinates }) {
   const widthArray = Array.from({length: size.width/5+1 }).map((_,i)=> 0 + i * 5)
   const heightArray = Array.from({length: size.height/5+1 }).map((_,i)=> 0 + i * 5)
 
@@ -45,11 +46,11 @@ function PointCoordinates({ point, size }) {
 
       <Box p={1}>
         <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Ось X</InputLabel>
+          <InputLabel id="demo-simple-select-label">X</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={""}
               onChange={handleChange}>
               {
                 widthArray.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)
@@ -65,7 +66,7 @@ function PointCoordinates({ point, size }) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={""}
             onChange={handleChange}>
               {
                 heightArray.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)
@@ -78,4 +79,11 @@ function PointCoordinates({ point, size }) {
   )
 }
 
-export default PointCoordinates;
+const mapStateToProps = state => {
+  return {
+    coordinates: state.coordinates
+  }
+ 
+}
+
+export default connect(mapStateToProps)(PointCoordinates);
